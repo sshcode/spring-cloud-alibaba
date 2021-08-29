@@ -1,0 +1,54 @@
+#server:
+#  port: 8091
+#spring:
+#  application:
+#    name: service-order
+#  datasource:
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://49.233.16.156:3306/shop?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+#    username: root
+#    password: 1
+#  cloud: #配置nacos
+#    nacos:
+#      discovery:
+#        server-addr: localhost:8848
+#    sentinel:
+#      transport:
+#        port: 9999 #跟控制台交流的端口，随意指定一个未使用的端口即可
+#        dashboard: localhost:8088 #指定控制台服务的地址
+##      filter:
+##        enabled: false #控制链路生效
+##配置负载均衡策略
+##service-product:
+##  ribbon:
+#
+#mybatis:
+#  configuration:
+#    map-underscore-to-camel-case: true
+#  mapper-locations: classpath:mapper/**/*.xml
+#  type-aliases-package: com.sshcode.model
+#feign:
+#  sentinel:
+#    enabled: true #开启fegin对sentinel的支持
+#
+##rocketmq
+#rocketmq:
+#  name-server: 152.136.212.91:9876 #rocketmq服务地址
+#  producer:
+#    group: shop_order #生产者组
+
+#duboo配置 提供服务
+dubbo:
+  scan:
+    base-packages: com.sshcode.order.service.impl #开启包扫描
+  registry:
+    address: spring-cloud://localhost #注册中心
+  protocol:
+    name: duboo #服务协议
+    port: -1 #服务端口-1代表没有限制
+  #调用服务
+#  registry:
+#    address: spring-cloud://localhost #注册中心
+#  cloud:
+#    subscribed-services: service-order #订阅的提供者名称

@@ -1,0 +1,12 @@
+#引入配置内容
+spring:
+  application:
+    name: service-order
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848 #nacos的服务地址
+        file-extension: yaml #配置格式
+        namespace:
+  profiles:
+    active: test #开发环境

@@ -1,0 +1,36 @@
+server:
+  port: 7000
+spring:
+  application:
+    name: api-gateway
+  zipkin:
+    base-url: http://127.0.0.1:9411 #zipkin server的请求地址
+    discovery-client-enabled: false #让nacos把他当成一个URL，而不是服务名
+  sleuth:
+    sampler:
+      probability: 1.0 #采样的百分比
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848 #将gateway注册到nacos
+    gateway:
+      discovery:
+        locator:
+          enabled: true #让gateway从nacos中获取信息
+      routes: #路由数据（路由 就是当请求满足什么条件，就转发到哪个微服务上）
+        - id: product_route # 当前路由发的标示，默认uuid
+          uri: lb://service-product  #lb指的是负载均衡，后面跟的是具体微服务在nacos中的标示
+          #http://localhost:8081请求最终被转发的地址
+          order: 1 #路由的排序，数字越小优先级越多
+          predicates:  #断言 （条件判断，返回值是boolean）
+            - Path=/product-serv/** #当请求满足Path指定规则时，此路径才会正常转发
+          filters: #过滤器（在请求传递过程中 队请求做一些手脚）
+            - StripPrefix=1 #在请求转发前去掉一层路径
+#        - id: order_route # 当前路由发的标示，默认uuid
+#            uri: lb://service-order  #lb指的是负载均衡，后面跟的是具体微服务在nacos中的标示
+#            #http://localhost:8081请求最终被转发的地址
+#            order: 1 #路由的排序，数字越小优先级越多
+#            predicates:  #断言 （条件判断，返回值是boolean）
+#              - Path=/order-serv/** #当请求满足Path指定规则时，此路径才会正常转发
+#            filters: #过滤器（在请求传递过程中 队请求做一些手脚）
+#              - StripPrefix=1 #在请求转发前去掉一层路径

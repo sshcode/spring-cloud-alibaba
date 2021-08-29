@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sshcode.product.dao.ProductMapper">
+<!--    <resultMap id="productVO" type="com.sshcode.model.ProductVO">-->
+<!--        <id column="pid" property="pid"/>-->
+<!--        <result column="panme" property="panme"/>-->
+<!--        <result column="pprice" property="pprice"/>-->
+<!--        <result column="stock" property="stock"/>-->
+<!--    </resultMap>-->
+
+    <select id="findByPid" resultType="ProductVO">
+        select * from shop_product where pid = #{pid}
+    </select>
+</mapper>
